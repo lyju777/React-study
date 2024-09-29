@@ -2,20 +2,23 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-// import App from './App';
+import App from './App';
 // import Clock from './chapter_04/Clock';
 // import CommentList from './chapter_05/CommentList';
 // import Accommodate from './chapter_06/Accommodate';
 // import ConfirmButton from './chapter_07.jsx/ConfirmButton';
 // import LandingPage from './chapter_08/LandingPage';
 // import AttendanceBook from './chapter_09/AttendanceBook';
-import SignUp from './chapter_11/SignUp';
+// import SignUp from './chapter_11/SignUp';
+// import DarkOrLight from './chapter_12/DarkOrLight';
+// import Blocks from './chapter_13/Blocks';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
   <React.StrictMode>
-    <SignUp />
+    <App />
   </React.StrictMode>
 );
 
