@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 const Register = () => {
   const [input, setInput] = useState({
@@ -8,44 +8,32 @@ const Register = () => {
     comment: "",
   });
 
+  const countRef = useRef(0);
+  const inputRef = useRef();
+
   const onChange = (e) => {
+    countRef.current++;
+    console.log(countRef.current);
     setInput({
       ...input,
       [e.target.name]: e.target.value,
     });
   };
 
-  // const onChangeName = (e) => {
-  //   setInput({
-  //     ...input,
-  //     name: e.target.value,
-  //   });
-  // };
-
-  // const onChangeBirth = (e) => {
-  //   setInput({
-  //     ...input,
-  //     birth: e.target.value,
-  //   });
-  // };
-
-  // const onChangeCountry = (e) => {
-  //   setInput({
-  //     ...input,
-  //     country: e.target.value,
-  //   });
-  // };
-
-  // const onChangeComment = (e) => {
-  //   setInput({
-  //     ...input,
-  //     comment: e.target.value,
-  //   });
-  // };
+  const onsubmit = () => {
+    if (input.name === "") {
+      alert("이름을 입력해주세요.");
+      inputRef.current.focus();
+      return;
+    }
+  };
 
   return (
     <div>
+      <button onClick={onChange}>버튼</button>
+
       <input
+        ref={inputRef}
         name="name"
         onChange={onChange}
         value={input.name}
@@ -74,6 +62,7 @@ const Register = () => {
       <div>
         <textarea name="comment" value={input.comment} onChange={onChange} />
       </div>
+      <button onClick={onsubmit}>제출</button>
     </div>
   );
 };
