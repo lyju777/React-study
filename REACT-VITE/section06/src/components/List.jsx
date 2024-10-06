@@ -1,6 +1,6 @@
 import "./List.css";
 import TodoItem from "./TodoItem";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 
 const List = ({ todos, onUpdate, onDelete }) => {
   const [search, setSearch] = useState("");
@@ -20,9 +20,26 @@ const List = ({ todos, onUpdate, onDelete }) => {
 
   const filterdTodos = getFilterdData();
 
+  const { totalCount, doneCount, notDoneCount } = useMemo(() => {
+    console.log("호출");
+
+    const totalCount = todos.length;
+    const doneCount = todos.filter((todo) => todo.isDone).length;
+    const notDoneCount = totalCount - doneCount;
+
+    return { totalCount, doneCount, notDoneCount };
+  }, [todos]);
+
+  // const { totalCount, doneCount, notDoneCount } = getAnalyzedDate();
+
   return (
     <div className="List">
       <h4>Todo List👍</h4>
+      <div>
+        <div>total:{totalCount}</div>
+        <div>doneCount:{doneCount}</div>
+        <div>notDoneCount:{notDoneCount}</div>
+      </div>
       <input
         value={search}
         onChange={onChageSearch}

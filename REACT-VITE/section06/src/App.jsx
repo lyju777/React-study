@@ -2,7 +2,7 @@ import "./App.css";
 import Header from "./components/Header";
 import Editor from "./components/Editor";
 import List from "./components/List";
-import { useState, useRef } from "react";
+import { useRef, useReducer, useCallback } from "react";
 
 const mockData = [
   {
@@ -25,11 +25,26 @@ const mockData = [
   },
 ];
 
+function reducer(state, action) {
+  switch (action.type) {
+    case "CREATE":
+      return [action.data, ...state];
+    case "UPDATE":
+      return state.map((todo) =>
+        todo.id === action.id ? { ...todo, isDone: !todo.isDone } : todo
+      );
+    case "DELETE":
+      return state.filter((todo) => todo.id !== action.id);
+    default:
+      return state;
+  }
+}
+
 function App() {
-  const [todos, setTodos] = useState(mockData);
+  const [todos, dispatch] = useReducer(reducer, mockData);
   const idRef = useRef(3);
 
-  const onCreate = (content) => {
+  const onCreate = useCallback((content) => {
     const newTodo = {
       id: idRef.current++,
       isDone: false,
@@ -37,20 +52,25 @@ function App() {
       date: new Date().getTime(),
     };
 
-    setTodos([newTodo, ...todos]);
-  };
+    dispatch({
+      type: "CREATE",
+      data: newTodo,
+    });
+  }, []);
 
-  const onUpdate = (targetId) => {
-    setTodos(
-      todos.map((todo) =>
-        todo.id === targetId ? { ...todo, isDone: !todo.isDone } : todo
-      )
-    );
-  };
+  const onUpdate = useCallback((targetId) => {
+    dispatch({
+      type: "UPDATE",
+      id: targetId,
+    });
+  }, []);
 
-  const onDelete = (targetId) => {
-    setTodos(todos.filter((todo) => todo.id !== targetId));
-  };
+  const onDelete = useCallback((targetId) => {
+    dispatch({
+      type: "DELETE",
+      id: targetId,
+    });
+  }, []);
 
   return (
     <div className="App">

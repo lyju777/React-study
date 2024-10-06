@@ -1,3 +1,4 @@
+import { memo } from "react";
 import "./TodoItem.css";
 
 function TodoItem({ todo, onUpdate, onDelete }) {
@@ -22,4 +23,4 @@ function TodoItem({ todo, onUpdate, onDelete }) {
   );
 }
 
-export default TodoItem;
+export default memo(TodoItem);
